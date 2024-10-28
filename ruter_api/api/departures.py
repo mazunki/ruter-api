@@ -25,6 +25,22 @@ class Departure:
     def __repr__(self):
         return f"Departure(arrival_time={self.arrival_time}, departure_time={self.departure_time}, destination={self.destination}, route={self.route})"
 
+    def __format__(self, fmt):
+        placeholders = {
+                "{icon}": f"{self.route.transport_icon}",
+                "{time}": f"{self.departure_time:%H:%M}",
+                "{countdown}": f"{self.countdown.strip()}",
+                "{line_no}": f"{self.route.line_number}",
+                "{destination}": f"{self.destination}",
+                "\\t": "\t",
+                "\\n": "\n",
+        }
+
+        for key in placeholders:
+            fmt = fmt.replace(key, placeholders[key])
+
+        return fmt
+
 
     def __str__(self):
         return f"{self.route.transport_icon}\t{self.departure_time:%H:%M} ({self.countdown.strip():>8}) {self.route.line_number:>5} {self.destination}"
